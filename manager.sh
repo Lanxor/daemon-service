@@ -43,7 +43,7 @@ case $1 in
   "stop")
     stop
     ;;
-  "reload")
+  "restart")
     stop
     start
     ;;
