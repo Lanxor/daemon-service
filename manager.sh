@@ -13,7 +13,7 @@ check_process() {
 
 start() {
   if [ ! -f "$pidfile" ]; then
-    setsid -f $cmd & echo $! > "$pidfile"
+    setsid $cmd & echo $! > "$pidfile"
   fi
 }
 
