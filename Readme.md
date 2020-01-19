@@ -61,3 +61,48 @@ Actually it's important to define `pidfile` and `cmd` variables to execute the d
 * More details with status of daemon
 * Manage logfile
 * one command to rules them all (just one symbolic link, perhaps)
+
+## Example
+
+1. Create your own git project `folder-example`.
+2. Create your code (infinite loop) `example.sh`.
+3. Import the git submodule `daemon-service/`
+4. Create the configuration file `daemon`.
+
+```
+folder-example/
+├─ daemon-service/
+|  ├─ Readme.md
+│  └─ manager.sh
+├─ daemon
+└─ example.sh
+```
+
+File **example.sh**: My script or whatever, need to be in infinite loop.
+```
+#! /bin/bash
+
+while [ 1 ]; do
+  sleep 2
+done
+```
+
+File **daemon**: Configure the daemon-service.
+
+Here we need to specify `bash example.sh` and not `./example`.
+```
+#! /bin/bash
+# daemon.sh
+
+# Command to go on the folder of script lauched
+cd "$(dirname "`readlink -f "$0"`")"
+
+# Some variables to define the daemon
+pidfile='.example.pid'
+cmd="bash example.sh"
+
+# Import the script and these functions
+source "`pwd`/daemon-service/manager.sh"
+```
+
+
